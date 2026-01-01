@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero py-4">
+    <div class="container">
+        <div class="hero-content text-center">
+            <div class="mb-2">
+                <span class="badge badge-primary">
+                    <i class="fas fa-sparkles"></i> Smart Agriculture
+                </span>
+            </div>
+            <h1 class="hero-title">Intelligent Crop Prediction System</h1>
+            <p class="hero-subtitle">Harness the power of  machine learning to predict optimal crops, maximize yield, and boost profitability for your farm.</p>
+            
+            <div class="hero-buttons">
+                <a href="{% url 'predict' %}" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Start Prediction
+                </a>
+                <a href="{% url 'about' %}" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+            </div>
+
+            <!-- Hero Stats -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">25K+</div>
+                    <div class="stat-label">Datasets</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Real-Time</div>
+                    <div class="stat-label">Weather Data</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="py-4">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="section-title">Why Choose AgriSmart?</h2>
+            <p class="section-subtitle">Experience the future of farming with cutting-edge technology</p>
+        </div>
+
+        <div class="grid-3">
+            <!-- Feature 1 -->
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>Smart Predictions</h3>
+                <p>Our machine learning algorithms analyze soil parameters, weather patterns, and historical data to provide 99% accurate crop recommendations.</p>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li><i class="fas fa-check text-primary"></i> Random Forest Algorithm</li>
+                    <li><i class="fas fa-check text-primary"></i> Real-time Analysis</li>
+                    <li><i class="fas fa-check text-primary"></i> Instant Results</li>
+                </ul>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h3>Real-Time Weather Data</h3>
+                <p>Get live weather updates and historical climate data integrated directly from OpenWeatherMap to enhance prediction accuracy.</p>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li><i class="fas fa-check text-primary"></i> Live Weather Updates</li>
+                    <li><i class="fas fa-check text-primary"></i> Climate Insights</li>
+                    <li><i class="fas fa-check text-primary"></i> Seasonal Forecasts</li>
+                </ul>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="card feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Market Intelligence</h3>
+                <p>Analyze market trends, price predictions, and demand forecasts to make informed decisions about which crops to grow.</p>
+                <ul style="list-style: none; margin-top: 1rem;">
+                    <li><i class="fas fa-check text-primary"></i> Price Trends</li>
+                    <li><i class="fas fa-check text-primary"></i> Demand Analysis</li>
+                    <li><i class="fas fa-check text-primary"></i> Profit Maximization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS SECTION -->
+<section class="py-4" style="background: var(--lighter);">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Three simple steps to perfect crop recommendations</p>
+        </div>
+
+        <div class="steps-container">
+            <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Enter Location</h3>
+                <p>Use GPS or click on the interactive map to set your farm location for accurate weather data and environmental conditions.</p>
+                <div class="step-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+            </div>
+
+            <div class="step-arrow">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Input Farm Data</h3>
+                <p>Provide soil properties, weather conditions, farming practices, and crop preferences for personalized recommendations.</p>
+                <div class="step-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+            </div>
+
+            <div class="step-arrow">
+                <i class="fas fa-arrow-right"></i>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Get Recommendations</h3>
+                <p>Receive AI-powered crop suggestions with detailed market trends, farming guidelines, and profit analysis.</p>
+                <div class="step-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="py-4">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Transform Your Farming Today</h2>
+            <p>Join thousands of farmers using AgriSmart to make data-driven decisions and increase their crop yield.</p>
+            <a href="{% url 'predict' %}" class="btn btn-primary">
+                <i class="fas fa-rocket"></i> Get Started Now
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* HERO SECTION */
+    .hero {
+        background: linear-gradient(135deg, var(--primary-light) 0%, white 100%);
+        padding: 4rem 0;
+    }
+
+    .hero-content {
+        padding: 2rem 0;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin: 1rem 0;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: var(--gray);
+        max-width: 700px;
+        margin: 1rem auto 2rem;
+        line-height: 1.8;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+    }
+
+    /* HERO STATS */
+    .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 4rem;
+        padding-top: 4rem;
+        border-top: 2px solid var(--border);
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: var(--gray);
+        font-weight: 600;
+    }
+
+    /* SECTION STYLES */
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--gray);
+        margin: 0;
+    }
+
+    /* FEATURE CARDS */
+    .feature-card {
+        padding: 2.5rem;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-top: 4px solid var(--primary);
+    }
+
+    .feature-card:hover {
+        border-top-color: var(--accent);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.3rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .feature-card p {
+        color: var(--gray);
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+
+    .feature-card ul li {
+        color: var(--gray);
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+
+    .feature-card ul li i {
+        color: var(--primary);
+        margin-right: 0.5rem;
+    }
+
+    /* STEPS SECTION */
+    .steps-container {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 3rem;
+    }
+
+    .step-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        border: 2px solid var(--border);
+        position: relative;
+        text-align: center;
+        transition: var(--transition);
+    }
+
+    .step-card:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-5px);
+    }
+
+    .step-number {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 35px;
+        height: 35px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+    }
+
+    .step-card h3 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .step-card p {
+        color: var(--gray);
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+
+    .step-icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-top: 1rem;
+    }
+
+    .step-arrow {
+        font-size: 2rem;
+        color: var(--primary);
+        text-align: center;
+    }
+
+    /* CTA BOX */
+    .cta-box {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .cta-box h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+    }
+
+    .cta-box p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-stats {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .steps-container {
+            grid-template-columns: 1fr;
+        }
+
+        .step-arrow {
+            display: none;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="py-3">
+    <div class="container">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <span class="badge badge-primary"><i class="fas fa-envelope"></i> Get in Touch</span>
+            <h1 class="section-title mt-2">Contact Us</h1>
+            <p class="section-subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+
+        <!-- Contact Grid -->
+        <div class="grid-2" style="margin-top: 3rem;">
+            <!-- Contact Form -->
+            <div class="card" style="border-top: 4px solid var(--primary); padding: 2.5rem;">
+                <h3 style="color: var(--dark); margin-bottom: 2rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-paper-plane" style="color: var(--primary);"></i> Send us a Message
+                </h3>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-user" style="color: var(--primary); font-size: 0.9rem;"></i> Your Name
+                        </label>
+                        <input type="text" name="name" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-at" style="color: var(--primary); font-size: 0.9rem;"></i> Your Email
+                        </label>
+                        <input type="email" name="email" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-heading" style="color: var(--primary); font-size: 0.9rem;"></i> Subject
+                        </label>
+                        <input type="text" name="subject" placeholder="How can we help?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-pen" style="color: var(--primary); font-size: 0.9rem;"></i> Message
+                        </label>
+                        <textarea name="message" rows="6" placeholder="Write your message here..." required style="resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" style="padding: 0.8rem; font-weight: 700;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+
+            <!-- Contact Information -->
+            <div>
+                <!-- Address -->
+                <div class="card" style="border-top: 4px solid #3b82f6; margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--dark); margin-bottom: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-map-marker-alt" style="color: #3b82f6;"></i> Address
+                    </h3>
+                    <p style="color: var(--gray); line-height: 1.8; font-size: 0.95rem;">
+                        <strong>Siddartha Institute Of Science And Technology</strong><br>
+                        Puttur, Chittor District<br>
+                        India 517583
+                    </p>
+                </div>
+
+                <!-- Phone -->
+                <div class="card" style="border-top: 4px solid var(--accent); margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--dark); margin-bottom: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-phone" style="color: var(--accent);"></i> Phone
+                    </h3>
+                    <p style="color: var(--gray); line-height: 1.8; font-size: 0.95rem;">
+                        <strong>Support:</strong><br>
+                        support@agrismart.in<br><br>
+                        <strong>Available:</strong><br>
+                        Mon-Fri: 9 AM - 6 PM
+                    </p>
+                </div>
+
+                <!-- Hours -->
+                <div class="card" style="border-top: 4px solid #ef4444;">
+                    <h3 style="color: var(--dark); margin-bottom: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-clock" style="color: #ef4444;"></i> Business Hours
+                    </h3>
+                    <p style="color: var(--gray); line-height: 1.8; font-size: 0.95rem;">
+                        <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM<br>
+                        <strong>Saturday:</strong> 10:00 AM - 4:00 PM<br>
+                        <strong>Sunday:</strong> Closed
+                    </p>
+                </div>
+
+                <!-- Social Media -->
+                <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1.5rem; font-weight: 800;">Follow Us</h4>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="#" style="color: white; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.background='white'; this.style.color='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" style="color: white; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.background='white'; this.style.color='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="color: white; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.background='white'; this.style.color='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" style="color: white; width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.background='white'; this.style.color='var(--primary)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    textarea {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 2px solid var(--border);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        transition: var(--transition);
+        background: white;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    @media (max-width: 768px) {
+        .grid-2 {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+    
+{% endblock %}

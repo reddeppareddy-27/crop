@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="max-width: 400px; margin: 2rem auto;">
+    <h2 class="text-center" style="color: var(--secondary);">Login</h2>
+    <p class="text-center" style="color: #666; margin-bottom: 20px;">Please sign in to continue</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label style="font-weight: 600;">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-block" style="margin-top: 15px;">Login</button>
+    </form>
+
+    <div class="text-center" style="margin-top: 20px;">
+        <p><a href="{% url 'password_reset' %}" style="color: var(--primary);">Forgot Password?</a></p>
+        <p style="margin-top: 10px;">Don't have an account? <a href="{% url 'signup' %}" style="font-weight: bold;">Sign up</a></p>
+    </div>
+</div>
+{% endblock %}

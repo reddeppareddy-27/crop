@@ -1,0 +1,398 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="position: absolute; top: 15px; right: 20px; z-index: 1000;">
+    <div id="google_translate_element"></div>
+</div>
+
+<div class="text-center" style="margin-bottom: 3rem;">
+    <span class="badge badge-info" style="margin-bottom: 1rem;">AI-Powered Recommendations</span>
+    <h1 style="color: var(--secondary); font-size: 2.8rem; font-weight: 800; margin-bottom: 10px;">Smart Crop & Market Analysis</h1>
+    <p style="color: #666; font-size: 1.1rem;">Combine AI prediction with real-time market intelligence for optimal farming decisions</p>
+</div>
+
+<div class="progress-tracker" style="display: flex; gap: 20px; margin-bottom: 40px; align-items: center; justify-content: center;">
+    <div class="progress-step active" style="text-align: center;">
+        <div class="progress-circle">1</div>
+        <p>Location</p>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" style="text-align: center;">
+        <div class="progress-circle">2</div>
+        <p>Farm Data</p>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" style="text-align: center;">
+        <div class="progress-circle">3</div>
+        <p>Results</p>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card" style="border-top: 5px solid #3498db;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-map-marker-alt" style="color: #3498db;"></i> Location Intelligence
+            </h3>
+            <span class="badge badge-info">Step 1</span>
+        </div>
+        <div id="map" style="height: 280px; width: 100%; border-radius: 10px; margin-bottom: 15px; border: 2px solid #eee; z-index: 1;"></div>
+        <button onclick="getLocation()" class="btn btn-block" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 15px; border: none; font-weight: 600;">
+            <i class="fas fa-location-dot"></i> Use My Current Location
+        </button>
+        
+        {% if weather %}
+        <div style="background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%); padding: 18px; border-radius: 10px; border-left: 4px solid #3498db;">
+            <h4 style="margin: 0 0 15px 0; color: #3498db; font-weight: 700;">📍 Analysis for: {{ weather.city_name }}</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.95rem;">
+                <div style="background: white; padding: 10px; border-radius: 8px;"><strong>🌡️ Temp:</strong> <span style="color: var(--primary); font-weight: 700;">{{ weather.temp }}°C</span></div>
+                <div style="background: white; padding: 10px; border-radius: 8px;"><strong>💧 Humidity:</strong> <span style="color: var(--primary); font-weight: 700;">{{ weather.humidity }}%</span></div>
+                <div style="background: white; padding: 10px; border-radius: 8px;"><strong>🌧️ Rainfall:</strong> <span style="color: var(--primary); font-weight: 700;">{{ weather.rainfall }}mm</span></div>
+                <div style="background: white; padding: 10px; border-radius: 8px;"><strong>💨 Wind:</strong> <span style="color: var(--primary); font-weight: 700;">{{ weather.windspeed }} km/h</span></div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card" style="border-top: 5px solid var(--primary);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-leaf" style="color: var(--primary);"></i> Farm Data
+            </h3>
+            <span class="badge badge-success">Step 2</span>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="grid-2" style="gap: 15px;">
+                <div class="form-group">
+                    <label><i class="fas fa-thermometer-half"></i> Temperature (°C)</label>
+                    <input type="number" step="0.01" name="temperature" value="{{ weather.temp|default:'' }}" class="auto-field" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-droplet"></i> Humidity (%)</label>
+                    <input type="number" step="0.01" name="humidity" value="{{ weather.humidity|default:'' }}" class="auto-field" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-cloud-rain"></i> Rainfall (mm)</label>
+                    <input type="number" step="0.01" name="rainfall" value="{{ weather.rainfall|default:'0' }}" class="auto-field" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-wind"></i> Wind (km/h)</label>
+                    <input type="number" step="0.01" name="windspeed" value="{{ weather.windspeed|default:'' }}" class="auto-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-flask"></i> Soil pH</label>
+                    <input type="number" step="0.01" name="ph" placeholder="6.5" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-earth"></i> Soil Type</label>
+                    <select name="soil_type" required>
+                        <option value="">Select Soil Type</option>
+                        <option value="Clayey">Clayey</option>
+                        <option value="Sandy">Sandy</option>
+                        <option value="Loamy">Loamy</option>
+                        <option value="Silty">Silty</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-calendar"></i> Season</label>
+                    <select name="season" required>
+                        <option value="">Select Season</option>
+                        <option value="Summer">Summer</option>
+                        <option value="Winter">Winter</option>
+                        <option value="Monsoon">Monsoon</option>
+                        <option value="Spring">Spring</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-sprout"></i> Growth Stage</label>
+                    <select name="growth_stage" required>
+                        <option value="">Select Growth Stage</option>
+                        <option value="Vegetative">Vegetative</option>
+                        <option value="Reproductive">Reproductive</option>
+                        <option value="Maturity">Maturity</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-flask-vial"></i> Fertilizer</label>
+                    <select name="fertilizer_type" required>
+                        <option value="">Select Fertilizer Type</option>
+                        <option value="Organic">Organic</option>
+                        <option value="Chemical">Chemical</option>
+                        <option value="Mixed">Mixed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-bug"></i> Pesticide</label>
+                    <select name="pesticide_usage" required>
+                        <option value="">Select Pesticide Usage</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-block" style="margin-top: 25px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); font-size: 1rem; padding: 15px; font-weight: 700;">
+                <i class="fas fa-magic"></i> Get Crop Prediction
+            </button>
+        </form>
+    </div>
+</div>
+
+{% if result %}
+<div id="result-section" style="margin-top: 50px; padding-top: 20px;">
+    
+    <div class="card text-center" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://source.unsplash.com/1200x400/?{{ details.image_keyword }},agriculture'); background-size: cover; color: white; padding: 4rem; border: none;">
+        <h4 style="color: #f1c40f; text-transform: uppercase;">Top Recommendation</h4>
+        <h1 id="res-crop" style="font-size: 5rem; margin: 0; font-weight: 800;">{{ result }}</h1>
+        <p id="res-desc" style="font-size: 1.2rem; max-width: 700px; margin: 20px auto;">{{ details.desc }}</p>
+        <button onclick="speakResult()" class="btn" style="background: #f1c40f; color: black; margin-top: 20px; font-weight: bold;">🔊 Listen to Guide</button>
+    </div>
+
+    <div class="grid-3" style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        
+        <div class="card" style="border-top: 4px solid #e74c3c;">
+            <h3>🛡️ Recommended Pesticides</h3>
+            <ul id="res-pests" style="padding-left: 20px; color: #555;">
+                {% for disease in details.diseases %}
+                    <li>{{ disease.name }}: {{ disease.cure }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card" style="border-top: 4px solid #f1c40f;">
+            <h3>💰 Selling Tips</h3>
+            <p id="res-tips" style="color: #555;">{{ details.tips }}</p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid #3498db;">
+            <h3>📅 Quick Guide</h3>
+            <ul style="padding-left: 20px; color: #555;">
+                {% for step in details.guide %}
+                    <li id="guide-{{ forloop.counter }}"><strong>{{ step.stage }}:</strong> {{ step.action }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <h2 class="section-title">📈 Market Intelligence</h2>
+        <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="card"><h3>💰 7-Day Price Trend</h3><div style="height: 250px;"><canvas id="priceChart"></canvas></div><p style="font-size: 0.8rem; color: #888; text-align: center;">Unit: ₹/Quintal</p></div>
+            <div class="card"><h3>📊 Market Demand</h3><div style="height: 250px; display: flex; justify-content: center;"><canvas id="demandChart"></canvas></div></div>
+            <div class="card"><h3>🧪 Farm Profile Analysis</h3><div style="height: 250px;"><canvas id="radarChart"></canvas></div></div>
+        </div>
+    </div>
+</div>
+{% endif %} 
+
+<script>
+    let map;
+    let marker;
+
+    // --- VOICE ASSISTANT ---
+    function speakResult() {
+        window.speechSynthesis.cancel();
+        
+        const crop = document.getElementById('res-crop').innerText;
+        const desc = document.getElementById('res-desc').innerText;
+        const tips = document.getElementById('res-tips').innerText;
+        
+        let guideText = "";
+        {% for step in details.guide %}
+        guideText += document.getElementById('guide-{{ forloop.counter }}').innerText + ". ";
+        {% endfor %}
+
+        const fullText = `${crop}. ${desc}. Selling Tips: ${tips}. Guide: ${guideText}`;
+        const speech = new SpeechSynthesisUtterance(fullText);
+
+        const isTelugu = /[\u0C00-\u0C7F]/.test(fullText);
+        const isHindi = /[\u0900-\u097F]/.test(fullText);
+        const voices = window.speechSynthesis.getVoices();
+
+        if (isTelugu) { 
+            speech.lang = 'te-IN'; 
+            const v = voices.find(v => v.lang.includes('te')); 
+            if (v) speech.voice = v; 
+        } else if (isHindi) { 
+            speech.lang = 'hi-IN'; 
+            const v = voices.find(v => v.lang.includes('hi')); 
+            if (v) speech.voice = v; 
+        } else { 
+            speech.lang = 'en-US'; 
+        }
+
+        window.speechSynthesis.speak(speech);
+    }
+
+    function updateLocation(lat, lon) {
+        if(marker) map.removeLayer(marker);
+        marker = L.marker([lat, lon]).addTo(map).bindPopup("Selected Location").openPopup();
+        window.location.href = "{% url 'predict' %}?lat=" + lat + "&lon=" + lon;
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(p) {
+                updateLocation(p.coords.latitude, p.coords.longitude);
+            }, function(error) {
+                alert("GPS Error: " + error.message + ". Try clicking the map instead.");
+            }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+        } else { 
+            alert("Geolocation not supported"); 
+        }
+    }
+
+    // --- INITIALIZE ON DOM READY ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Map
+        const mapElement = document.getElementById('map');
+        if(mapElement) {
+            map = L.map('map').setView([20.5937, 78.9629], 4); 
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+            
+            map.on('click', function(e) { 
+                updateLocation(e.latlng.lat, e.latlng.lng); 
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.has('lat')) {
+                map.setView([urlParams.get('lat'), urlParams.get('lon')], 12);
+                L.marker([urlParams.get('lat'), urlParams.get('lon')]).addTo(map);
+            }
+        }
+
+        // Initialize Charts
+        const chartPricesData = {{ chart_prices|safe }};
+        const chartDemandData = {{ chart_demand|safe }};
+        const tempData = {{ user_data.TEMPERATURE|default:"20" }};
+        const humidityData = {{ user_data.HUMIDITY|default:"60" }};
+        const phData = {{ user_data.PH|default:"6.5" }};
+        const rainfallData = {{ user_data.RAINFALL|default:"100" }};
+
+        if(document.getElementById('priceChart')) {
+            new Chart(document.getElementById('priceChart'), { 
+                type: 'line', 
+                data: { 
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Today'], 
+                    datasets: [{ 
+                        label: 'Price (₹/Q)', 
+                        data: chartPricesData || [0,0,0,0,0,0,0], 
+                        borderColor: '#3498db', 
+                        fill: true, 
+                        backgroundColor: 'rgba(52,152,219,0.1)', 
+                        tension: 0.4 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false 
+                } 
+            });
+        }
+
+        if(document.getElementById('demandChart')) {
+            new Chart(document.getElementById('demandChart'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: ['High Demand', 'Average', 'Low'], 
+                    datasets: [{ 
+                        data: chartDemandData || [30, 40, 30], 
+                        backgroundColor: ['#27ae60','#f1c40f','#e74c3c'] 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false 
+                } 
+            });
+        }
+
+        if(document.getElementById('radarChart')) {
+            new Chart(document.getElementById('radarChart'), { 
+                type: 'radar', 
+                data: { 
+                    labels: ['Temp', 'Humidity', 'pH (x10)', 'Rain (Scaled)', 'N (Est)', 'P (Est)'], 
+                    datasets: [{ 
+                        label: 'Farm Profile', 
+                        data: [tempData, humidityData, phData * 10, rainfallData / 4, 65, 50], 
+                        backgroundColor: 'rgba(46, 204, 113, 0.2)', 
+                        borderColor: '#2ecc71', 
+                        pointBackgroundColor: '#27ae60' 
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        r: { 
+                            suggestedMin: 0, 
+                            suggestedMax: 100 
+                        } 
+                    } 
+                } 
+            });
+        }
+
+        // Scroll to results if they exist
+        const resultSection = document.getElementById('result-section');
+        if(resultSection) {
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+</script>
+
+<style> 
+    .auto-field { 
+        background-color: #f8f9fa; 
+        color: #666; 
+        cursor: not-allowed; 
+    } 
+    .section-title { 
+        border-left: 5px solid var(--primary); 
+        padding-left: 15px; 
+        margin-bottom: 20px; 
+        color: var(--secondary); 
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+    .progress-tracker {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+    }
+    .progress-circle {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin: 0 auto 10px;
+    }
+    .progress-step.active .progress-circle {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+    }
+    .progress-line {
+        flex: 1;
+        height: 2px;
+        background: #eee;
+    }
+    .progress-step p {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: 600;
+    }
+    .btn-block {
+        width: 100%;
+    }
+</style>
+{% endblock %}
